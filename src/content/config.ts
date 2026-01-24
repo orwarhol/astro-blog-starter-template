@@ -34,7 +34,6 @@ const blog = defineCollection({
 const propaganda = defineCollection({
 	// Load Markdown and MDX files in the `src/content/propaganda/` directory.
 	loader: glob({ base: "./src/content/propaganda", pattern: "**/*.{md,mdx}" }),
-	type: "content",
 	schema: z.object({
 		title: z.string(),
 		type: z.enum(["poster", "sticker"]),
