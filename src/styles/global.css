@@ -15,6 +15,7 @@
 	--color-gray-2: #d0d4d9; /* borders on white */
 	--color-gray-3: #8a929a; /* muted text on white */
 	--color-gray-4: #2b2f33; /* muted text on black, if needed */
+	--color-text-on-dark: #e6e8ea; /* readable text on black */
 
 	/* compatibility aliases (so existing CSS keeps working) */
 	--accent: var(--color-accent);
@@ -66,7 +67,7 @@ body {
 	text-align: left;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: #e6e8ea;
+	color: var(--color-text-on-dark);
 	font-size: 20px;
 	line-height: 1.7;
 }
