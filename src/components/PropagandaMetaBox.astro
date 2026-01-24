@@ -1,0 +1,59 @@
+---
+---
+/*
+  Component: PropagandaMetaBox
+  Purpose: Render metadata for a single propaganda piece using semantic HTML (dl).
+  Props:
+    - type?: string
+    - year?: string
+    - printSize?: string
+    - orientation?: string
+    - tags?: string[]
+  Behavior:
+    - Only renders rows for fields that are present (graceful handling of missing data).
+    - Uses a <dl> (definition list) for semantic labels + values.
+    - No JavaScript, minimal classes for styling later.
+*/
+
+// Destructure props passed from parent page
+const { type, year, printSize, orientation, tags } = Astro.props;
+const formatLabel = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
+---
+<section class="propaganda-meta" aria-label="Propaganda metadata">
+  <dl>
+    {type ? (
+      <>
+        <dt>Type</dt>
+        <dd>{formatLabel(type)}</dd>
+      </>
+    ) : null}
+
+    {year ? (
+      <>
+        <dt>Year</dt>
+        <dd>{year}</dd>
+      </>
+    ) : null}
+
+    {printSize ? (
+      <>
+        <dt>Size</dt>
+        <dd>{printSize}</dd>
+      </>
+    ) : null}
+
+    {orientation ? (
+      <>
+        <dt>Orientation</dt>
+        <dd>{formatLabel(orientation)}</dd>
+      </>
+    ) : null}
+
+    {tags && tags.length ? (
+      <>
+        <dt>Tags</dt>
+        <dd>{tags.join(', ')}</dd>
+      </>
+    ) : null}
+  </dl>
+</section>
