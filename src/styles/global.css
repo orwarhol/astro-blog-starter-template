@@ -89,6 +89,25 @@ main {
 	border-radius: var(--radius);
 	box-shadow: var(--shadow);
 }
+.paper h1,
+.paper h2,
+.paper h3,
+.paper h4,
+.paper h5,
+.paper h6 {
+	color: var(--color-ink);
+}
+.dossier {
+	color: var(--color-ink);
+}
+.dossier h1,
+.dossier h2,
+.dossier h3,
+.dossier h4,
+.dossier h5,
+.dossier h6 {
+	color: var(--color-ink);
+}
 h1,
 h2,
 h3,
