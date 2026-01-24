@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import PropagandaPost from '../../layouts/PropagandaPost.astro';
+import { marked } from 'marked';
 
 export async function getStaticPaths() {
   const entries = await getCollection('propaganda');
@@ -33,6 +34,33 @@ const getStampText = () => {
   return entry.data.type === 'poster' ? 'APPROVED' : 'ARCHIVED';
 };
 const stampText = getStampText();
+
+// Split markdown body into report and inventory notes sections
+const bodyText = entry.body;
+const inventoryHeading = '## Inventory Control Notes';
+const inventoryIndex = bodyText.indexOf(inventoryHeading);
+
+let reportMd = bodyText;
+let inventoryNotesMd = '';
+
+if (inventoryIndex !== -1) {
+  // Extract inventory notes section
+  const afterHeading = bodyText.substring(inventoryIndex);
+  // Find the next ## heading or end of file
+  const nextHeadingMatch = afterHeading.substring(inventoryHeading.length).match(/\n## /);
+  const inventoryEnd = nextHeadingMatch 
+    ? inventoryIndex + inventoryHeading.length + nextHeadingMatch.index 
+    : bodyText.length;
+  
+  inventoryNotesMd = bodyText.substring(inventoryIndex + inventoryHeading.length, inventoryEnd).trim();
+  
+  // Remove the entire inventory section from report
+  reportMd = bodyText.substring(0, inventoryIndex) + bodyText.substring(inventoryEnd);
+}
+
+// Render markdown to HTML
+const reportHtml = marked.parse(reportMd);
+const inventoryHtml = inventoryNotesMd ? marked.parse(inventoryNotesMd) : '';
 ---
 
 <!-- Layout should NOT render an H1 under Option A -->
@@ -109,11 +137,9 @@ const stampText = getStampText();
         </div>
 
         <!-- Handwritten scribble block -->
-        <div class="handwritten">
-          <p>Do NOT display in public windows.</p>
-          <p>Monitor for unauthorized copies.</p>
-          <p>Return to archive immediately after printing.</p>
-        </div>
+        {inventoryHtml && (
+          <div class="handwritten" set:html={inventoryHtml} />
+        )}
       </section>
     </div>
 
@@ -136,9 +162,7 @@ const stampText = getStampText();
     </div>
 
     <!-- 5) Report body (content) -->
-    <article class="report-body" aria-label="Propaganda content">
-      <Content />
-    </article>
+    <article class="report-body" aria-label="Propaganda content" set:html={reportHtml} />
 
     <!-- 6) Back link -->
     <div class="back-link-container">
@@ -413,6 +437,24 @@ const stampText = getStampText();
   }
 
   .handwritten p:last-child {
+    margin-bottom: 0;
+  }
+
+  .handwritten ul,
+  .handwritten ol {
+    font-family: "Bradley Hand", "Comic Sans MS", "Segoe Script", cursive;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--dossier-dark);
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+
+  .handwritten li {
+    margin-bottom: 0.5rem;
+  }
+
+  .handwritten li:last-child {
     margin-bottom: 0;
   }
 
