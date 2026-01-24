@@ -1,0 +1,84 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { getCollection } from 'astro:content';
+
+const raw = await getCollection('propaganda');
+
+// Helper to parse year to integer or null
+const parseYear = (y) => {
+  if (!y) return null;
+  const n = parseInt(String(y), 10);
+  return Number.isNaN(n) ? null : n;
+};
+
+// Preserve original order for items without a year by tracking index
+const itemsWithIndex = raw.map((item, index) => ({ item, index }));
+itemsWithIndex.sort((a, b) => {
+  const ay = parseYear(a.item.data.year);
+  const by = parseYear(b.item.data.year);
+
+  if (ay !== null && by !== null) {
+    return by - ay; // both have years: newest first
+  }
+  if (ay !== null) return -1; // a has year => a comes before b
+  if (by !== null) return 1;  // b has year => b comes before a
+  return a.index - b.index;    // neither has year => preserve original order
+});
+
+const items = itemsWithIndex.map(x => x.item);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Propaganda – Negative Utopia`} description={SITE_DESCRIPTION} />
+    <style>
+      main { width: 960px; }
+      .propaganda-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1rem; }
+      .propaganda-list-item { padding: 1rem; border-radius: 8px; }
+      .title { margin: 0; color: rgb(var(--black)); }
+      .propaganda-meta { margin: 0.25rem 0 0; color: rgb(var(--gray)); font-size: 0.95rem; }
+      .tags { margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+      .tag { background: rgba(0,0,0,0.05); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; }
+      a { text-decoration: none; color: inherit; }
+      a:hover .title { color: rgb(var(--accent)); }
+      @media (max-width: 720px) {
+        main { width: 100%; padding: 0 1rem; box-sizing: border-box; }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section>
+        <h1>Propaganda Archive</h1>
+
+        <ul class="propaganda-list">
+          {items.map((item) => (
+            <li class="propaganda-list-item">
+              <a href={`/propaganda/${item.id}/`}>\n                <h3 class="title">{item.data.title}</h3>
+              </a>
+
+              <p class="propaganda-meta">
+                {item.data.type ? (item.data.type[0].toUpperCase() + item.data.type.slice(1)) : ''}
+                {item.data.year ? ` — ${item.data.year}` : ''}
+              </p>
+
+              {item.data.tags ? (
+                <div class="tags">
+                  {item.data.tags.map((t) => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
