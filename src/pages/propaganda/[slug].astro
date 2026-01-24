@@ -17,7 +17,8 @@ import PropagandaMetaBox from '../../components/PropagandaMetaBox.astro';
 export async function getStaticPaths() {
   const entries = await getCollection('propaganda');
   return entries.map((entry) => ({
-    params: { slug: entry.slug },
+    // use entry.id so URL /propaganda/<id>/ matches the links in the archive
+    params: { slug: entry.id },
     props: entry,
   }));
 }
