@@ -24,3 +24,9 @@ In terms of production, the poster was printed as a small run on 11x17 stock. An
 - Condensed display type for the headline (authoritative tone)
 - Limited two-color palette to mimic vintage offset printing
 - Include bleed and crop marks; export as a print-ready PDF
+
+## Inventory Control Notes
+
+- Do NOT display in public windows.
+- Monitor for unauthorized copies.
+- Return to archive immediately after printing.
