@@ -237,11 +237,13 @@ const inventoryHtml = inventoryNotesMd ? marked.parse(inventoryNotesMd) : '';
   }
 
   .dossier-header h1 {
-    font-family: var(--dossier-serif);
+    /* prefer Victor Mono and fall back to serif */
+    font-family: "Victor Mono", var(--dossier-serif);
     font-size: 2.5rem;
     font-weight: 700;
     line-height: 1.1;
-    color: var(--dossier-dark);
+    /* always white text (uses the surface color variable) */
+    color: var(--color-surface);
     text-transform: uppercase;
     letter-spacing: -0.02em;
     margin: 0 0 var(--spacing-sm) 0;
