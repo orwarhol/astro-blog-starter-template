@@ -242,7 +242,7 @@ const inventoryHtml = inventoryNotesMd ? marked.parse(inventoryNotesMd) : '';
     font-weight: 700;
     line-height: 1.1;
     /* always white text */
-    color: #fff;
+    color: var(--color-white);
     text-transform: uppercase;
     letter-spacing: -0.02em;
     margin: 0 0 var(--spacing-sm) 0;
@@ -421,7 +421,7 @@ const inventoryHtml = inventoryNotesMd ? marked.parse(inventoryNotesMd) : '';
   /* Handwritten scribble block */
   .handwritten {
     padding: var(--spacing-md);
-    background: #EEF2F6;
+    background: var(--paper-handwritten);
     border: 1px dashed var(--gray-3);
     border-radius: 2px;
     transform: rotate(-1deg);
