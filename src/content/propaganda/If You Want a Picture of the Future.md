@@ -15,7 +15,7 @@ previewImage: /boot_restored_11x17_300dpi.png
 
 This was the quote we kept coming back to. It prophesied so much in so few words. We see it on our streets today.
 
-Image retrieved from wayback machine in January 2026 and upscaled with light restoration while maintaining our 90s Kinkos over-photocopied look.
+Image retrieved from wayback machine in January 2026 and upscaled with light restoration while maintaining our 90s Kinkos copy-of-a-copy-of-a-copy look. Back then, we printed from whatever we had in the trunk of our car.
 
 ## Design notes and checklist
 
