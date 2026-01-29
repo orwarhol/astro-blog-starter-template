@@ -3,7 +3,7 @@ title: If You Want a Picture of the Future
 type: poster
 printSize: 11x17"
 orientation: portrait
-year: "1999"
+year: "2000"
 tags:
   - orwell
   - quote
